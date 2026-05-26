@@ -34,7 +34,7 @@ const faqs = [
     <h2 class="text-2xl md:text-3xl mb-10">Four ways to discover what's local.</h2>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
       {categories.map((c) => (
-        <div class="card card-hover">
+        <div class="card hover:shadow-lg transition">
           <div class="text-3xl">{c.icon}</div>
           <h3 class="mt-4 text-lg">{c.title}</h3>
           <p class="mt-2 text-sm text-ink-soft">{c.body}</p>
@@ -55,10 +55,10 @@ const faqs = [
         <a href="https://www.ourtown.store/" class="mt-6 inline-flex btn-primary">Explore baskets</a>
       </div>
       <ul class="grid grid-cols-2 gap-4">
-        <li class="aspect-square rounded-2xl bg-brand-100 p-5 flex items-end font-display text-2xl text-brand-800">Welcome Home</li>
-        <li class="aspect-square rounded-2xl bg-accent-100 p-5 flex items-end font-display text-2xl text-accent-800">Garden Starter</li>
-        <li class="aspect-square rounded-2xl bg-sand p-5 flex items-end font-display text-2xl text-ink">Coffee + Cozy</li>
-        <li class="aspect-square rounded-2xl bg-brand-500 p-5 flex items-end font-display text-2xl text-white">Birthday in a Box</li>
+        <li class="aspect-square rounded-2xl bg-gold-100 p-5 flex items-end font-display text-2xl text-navy-800">Welcome Home</li>
+        <li class="aspect-square rounded-2xl bg-forest-100 p-5 flex items-end font-display text-2xl text-forest-700">Garden Starter</li>
+        <li class="aspect-square rounded-2xl bg-cream-200 p-5 flex items-end font-display text-2xl text-ink">Coffee + Cozy</li>
+        <li class="aspect-square rounded-2xl bg-gold-400 p-5 flex items-end font-display text-2xl text-white">Birthday in a Box</li>
       </ul>
     </div>
   </section>
@@ -71,10 +71,10 @@ const faqs = [
         <h2 class="text-3xl md:text-4xl">Four taps. Lasting impact.</h2>
       </div>
       <ol class="space-y-6">
-        <li class="flex gap-5"><span class="font-display text-3xl text-brand-600 leading-none">1</span><div><h3 class="text-lg">Find what you need</h3><p class="text-ink-soft mt-1">Search by product, store, or cause near you.</p></div></li>
-        <li class="flex gap-5"><span class="font-display text-3xl text-brand-600 leading-none">2</span><div><h3 class="text-lg">Add to cart</h3><p class="text-ink-soft mt-1">Mix items from any local seller into a single basket.</p></div></li>
-        <li class="flex gap-5"><span class="font-display text-3xl text-brand-600 leading-none">3</span><div><h3 class="text-lg">Choose your cause</h3><p class="text-ink-soft mt-1">Pick a local nonprofit. See the contribution itemized in real time.</p></div></li>
-        <li class="flex gap-5"><span class="font-display text-3xl text-brand-600 leading-none">4</span><div><h3 class="text-lg">Check out</h3><p class="text-ink-soft mt-1">Funds split automatically — business, cause, platform. Done.</p></div></li>
+        <li class="flex gap-5"><span class="font-display text-3xl text-gold-600 leading-none">1</span><div><h3 class="text-lg">Find what you need</h3><p class="text-ink-soft mt-1">Search by product, store, or cause near you.</p></div></li>
+        <li class="flex gap-5"><span class="font-display text-3xl text-gold-600 leading-none">2</span><div><h3 class="text-lg">Add to cart</h3><p class="text-ink-soft mt-1">Mix items from any local seller into a single basket.</p></div></li>
+        <li class="flex gap-5"><span class="font-display text-3xl text-gold-600 leading-none">3</span><div><h3 class="text-lg">Choose your cause</h3><p class="text-ink-soft mt-1">Pick a local nonprofit. See the contribution itemized in real time.</p></div></li>
+        <li class="flex gap-5"><span class="font-display text-3xl text-gold-600 leading-none">4</span><div><h3 class="text-lg">Check out</h3><p class="text-ink-soft mt-1">Funds split automatically — business, cause, platform. Done.</p></div></li>
       </ol>
     </div>
   </section>
@@ -93,9 +93,9 @@ const faqs = [
   </section>
 
   <section class="container-x pb-24">
-    <div class="rounded-3xl bg-brand-500 text-white p-10 md:p-14 grid md:grid-cols-[1.5fr_1fr] gap-6 items-center">
+    <div class="rounded-3xl bg-gold-400 text-white p-10 md:p-14 grid md:grid-cols-[1.5fr_1fr] gap-6 items-center">
       <h2 class="text-3xl md:text-4xl text-white">Ready to spend like a neighbor?</h2>
-      <a href="https://www.ourtown.store/business/store/near" class="btn bg-white text-brand-700 hover:bg-cream md:justify-self-end">Browse nearby stores →</a>
+      <a href="https://www.ourtown.store/business/store/near" class="btn bg-white text-navy-700 hover:bg-cream md:justify-self-end">Browse nearby stores →</a>
     </div>
   </section>
 </BaseLayout>

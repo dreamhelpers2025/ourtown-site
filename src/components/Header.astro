@@ -1,0 +1,63 @@
+---
+const { pathname } = Astro.url;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const link = (p: string) => `${base}${p}`;
+
+const nav = [
+  { href: '/shoppers', label: 'Shop Local' },
+  { href: '/causes', label: 'Causes' },
+  { href: '/businesses', label: 'For Businesses' },
+  { href: '/about', label: 'About' },
+];
+
+const isActive = (href: string) => {
+  if (href === '/') return pathname === base + '/' || pathname === base || pathname === '/';
+  return pathname.startsWith(base + href);
+};
+---
+<header class="sticky top-0 z-30 backdrop-blur bg-cream/85 border-b border-ink/5">
+  <div class="container-x flex items-center justify-between h-16 gap-6">
+    <a href={link('/')} class="flex items-center gap-2 font-display text-lg tracking-tight">
+      <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-brand-500 text-white text-sm font-bold">OT</span>
+      <span>Our<span class="text-brand-600">Town</span></span>
+    </a>
+    <nav class="hidden md:flex items-center gap-7 text-sm">
+      {nav.map(({ href, label }) => (
+        <a
+          href={link(href)}
+          class:list={[
+            'transition hover:text-brand-600',
+            isActive(href) ? 'text-brand-600 font-semibold' : 'text-ink/75',
+          ]}
+        >
+          {label}
+        </a>
+      ))}
+    </nav>
+    <div class="hidden sm:flex items-center gap-2">
+      <a href={link('/contact')} class="text-sm text-ink/70 hover:text-brand-600 transition">Contact</a>
+      <a href={link('/businesses#signup')} class="btn-primary !px-5 !py-2 text-sm">List your store</a>
+    </div>
+    <button id="navToggle" class="md:hidden p-2 -mr-2" aria-label="Open menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="4" y1="7" x2="20" y2="7"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="17" x2="20" y2="17"/>
+      </svg>
+    </button>
+  </div>
+  <div id="mobileNav" class="md:hidden hidden border-t border-ink/5">
+    <nav class="container-x py-4 flex flex-col gap-3 text-sm">
+      {nav.map(({ href, label }) => (
+        <a href={link(href)} class="py-1 text-ink/80 hover:text-brand-600">{label}</a>
+      ))}
+      <a href={link('/contact')} class="py-1 text-ink/80 hover:text-brand-600">Contact</a>
+      <a href={link('/businesses#signup')} class="btn-primary !px-5 !py-2 text-sm self-start mt-2">List your store</a>
+    </nav>
+  </div>
+</header>
+<script>
+  const t = document.getElementById('navToggle');
+  const m = document.getElementById('mobileNav');
+  t?.addEventListener('click', () => m?.classList.toggle('hidden'));
+</script>

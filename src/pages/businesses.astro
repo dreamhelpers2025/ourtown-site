@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const link = (p: string) => `${base}${p}`;
+
+const benefits = [
+  { title: 'Keep 80–90% of every sale', body: 'No franchise fees, no inventory cuts. A flat, transparent split that respects your margin.' },
+  { title: 'Built-in story, built-in loyalty', body: 'Customers see who they\'re buying from and what cause their money supports. They come back.' },
+  { title: 'No website? No problem.', body: 'Your Our Town storefront is hosted, mobile-ready, and SEO-indexed from day one.' },
+  { title: 'Plays well with what you have', body: 'Use it as your only sales channel or alongside Square, Shopify, or your in-person POS.' },
+];
+
+const steps = [
+  { n: '01', title: 'Sign up', body: 'Create a free account in about 5 minutes. No credit card required to set up.' },
+  { n: '02', title: 'Build your storefront', body: 'Upload products, hours, your story. Tag the local causes you want to be associated with.' },
+  { n: '03', title: 'Get discovered', body: 'You appear in nearby search, in curated baskets, and on cause pages your customers care about.' },
+  { n: '04', title: 'Get paid', body: 'Payouts are weekly. Every transaction is itemized — you always know where money went.' },
+];
+---
+<BaseLayout title="For Businesses — Our Town" description="List your store on Our Town. Reach local shoppers who want to spend with intent, keep 80–90% of every sale, and put your business at the center of community impact.">
+  <section class="container-x pt-20 pb-12 grid md:grid-cols-[1.3fr_1fr] gap-10 items-center">
+    <div>
+      <p class="eyebrow mb-4">For Businesses</p>
+      <h1 class="text-4xl md:text-5xl">Get found by shoppers who actually want to spend local.</h1>
+      <p class="mt-6 text-lg text-ink-soft max-w-2xl">
+        List your store for free, plug into a marketplace built around community impact, and reach the customers traditional ads can't reliably find.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="https://www.ourtown.store/business/signup" class="btn-accent">Start free signup</a>
+        <a href="#how" class="btn-ghost">See how it works</a>
+      </div>
+      <p class="mt-6 text-xs text-ink/50 uppercase tracking-[0.18em]">5 min setup · No credit card · No monthly fee</p>
+    </div>
+    <div class="rounded-3xl bg-gradient-to-br from-accent-700 to-accent-900 text-white p-8">
+      <p class="text-accent-100 text-xs uppercase tracking-widest">Your share</p>
+      <div class="font-display text-6xl mt-2 leading-none">80–90<span class="text-3xl">%</span></div>
+      <p class="mt-3 text-accent-100/90">of every sale stays with your business — the rest funds the local cause your customer picks.</p>
+      <div class="mt-8 border-t border-white/20 pt-6 grid grid-cols-3 text-sm">
+        <div><div class="text-2xl font-display">$0</div><div class="text-accent-100 text-xs mt-1">Monthly fee</div></div>
+        <div><div class="text-2xl font-display">7d</div><div class="text-accent-100 text-xs mt-1">Payouts</div></div>
+        <div><div class="text-2xl font-display">∞</div><div class="text-accent-100 text-xs mt-1">Products</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section class="container-x py-16">
+    <div class="max-w-2xl mb-10">
+      <p class="eyebrow mb-3">Why list with Our Town</p>
+      <h2 class="text-3xl md:text-4xl">Built for the shop that wants to grow without selling its soul.</h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-5">
+      {benefits.map((b) => (
+        <div class="card card-hover">
+          <h3 class="text-lg">{b.title}</h3>
+          <p class="mt-2 text-ink-soft">{b.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Steps -->
+  <section id="how" class="bg-white border-y border-ink/10">
+    <div class="container-x py-20">
+      <div class="max-w-2xl mb-12">
+        <p class="eyebrow mb-3">Getting set up</p>
+        <h2 class="text-3xl md:text-4xl">From signup to first sale in a single afternoon.</h2>
+      </div>
+      <ol class="grid md:grid-cols-4 gap-5">
+        {steps.map((s) => (
+          <li class="card">
+            <div class="font-display text-accent-700 text-3xl">{s.n}</div>
+            <h3 class="mt-4 text-lg">{s.title}</h3>
+            <p class="mt-2 text-sm text-ink-soft">{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Who it fits -->
+  <section class="container-x py-20">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="eyebrow mb-3">Who it fits</p>
+        <h2 class="text-3xl md:text-4xl">If you sell to your community, you belong here.</h2>
+        <ul class="mt-6 space-y-3 text-ink-soft">
+          <li class="flex gap-3"><span class="mt-2 size-1.5 rounded-full bg-brand-500"></span>Indie retailers and bookstores</li>
+          <li class="flex gap-3"><span class="mt-2 size-1.5 rounded-full bg-brand-500"></span>Bakers, roasters, and food producers</li>
+          <li class="flex gap-3"><span class="mt-2 size-1.5 rounded-full bg-brand-500"></span>Makers, artists, and craftspeople</li>
+          <li class="flex gap-3"><span class="mt-2 size-1.5 rounded-full bg-brand-500"></span>Farms, nurseries, and homestead sellers</li>
+          <li class="flex gap-3"><span class="mt-2 size-1.5 rounded-full bg-brand-500"></span>Service providers offering gift cards or packages</li>
+        </ul>
+      </div>
+      <div class="rounded-3xl bg-sand p-10">
+        <blockquote class="font-display text-2xl leading-snug text-ink">
+          "You can succeed best and quickest by helping others succeed."
+        </blockquote>
+        <p class="mt-4 text-sm text-ink-soft">— Napoleon Hill, quoted by our founder Brad. It's the operating principle behind every feature we ship.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Signup CTA -->
+  <section id="signup" class="container-x pb-24">
+    <div class="rounded-3xl bg-accent-700 text-white p-10 md:p-16 grid md:grid-cols-[1.4fr_1fr] gap-8 items-center">
+      <div>
+        <h2 class="text-3xl md:text-4xl text-white">List your store today.</h2>
+        <p class="mt-4 text-accent-100/90 max-w-prose">
+          Free to join, free to list, free to stay. We only earn when you do.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-3 md:justify-end">
+        <a href="https://www.ourtown.store/business/signup" class="btn bg-white text-accent-800 hover:bg-cream">Create my storefront</a>
+        <a href={link('/contact')} class="btn border border-white/30 text-white hover:bg-white/10">Talk to us first</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

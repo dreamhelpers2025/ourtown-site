@@ -1,0 +1,48 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const link = (p: string) => `${base}${p}`;
+const year = new Date().getFullYear();
+---
+<footer class="mt-32 border-t border-ink/10 bg-white/60">
+  <div class="container-x py-16 grid gap-10 md:grid-cols-4">
+    <div class="space-y-4 md:col-span-1">
+      <div class="flex items-center gap-2 font-display text-xl">
+        <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-brand-500 text-white text-sm font-bold">OT</span>
+        Our<span class="text-brand-600 -ml-1">Town</span>
+      </div>
+      <p class="text-ink/70 max-w-sm text-sm">
+        Local Difference Makers. A marketplace where every purchase strengthens the small businesses and causes that hold communities together.
+      </p>
+    </div>
+    <div>
+      <div class="text-sm font-semibold text-ink mb-3">Shop</div>
+      <ul class="space-y-2 text-sm text-ink/70">
+        <li><a href={link('/shoppers')} class="hover:text-brand-600">How it works</a></li>
+        <li><a href={link('/causes')} class="hover:text-brand-600">Browse causes</a></li>
+        <li><a href={link('/shoppers#baskets')} class="hover:text-brand-600">Curated baskets</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="text-sm font-semibold text-ink mb-3">Partner</div>
+      <ul class="space-y-2 text-sm text-ink/70">
+        <li><a href={link('/businesses')} class="hover:text-brand-600">For businesses</a></li>
+        <li><a href={link('/businesses#signup')} class="hover:text-brand-600">List your store</a></li>
+        <li><a href={link('/causes#nominate')} class="hover:text-brand-600">Add a cause</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="text-sm font-semibold text-ink mb-3">About</div>
+      <ul class="space-y-2 text-sm text-ink/70">
+        <li><a href={link('/about')} class="hover:text-brand-600">Our story</a></li>
+        <li><a href={link('/contact')} class="hover:text-brand-600">Contact</a></li>
+        <li><a href="mailto:hello@ourtown.store" class="hover:text-brand-600">hello@ourtown.store</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-ink/10">
+    <div class="container-x py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-ink/50">
+      <span>© {year} Our Town. Local Difference Makers.</span>
+      <span>Built with Astro + Tailwind.</span>
+    </div>
+  </div>
+</footer>

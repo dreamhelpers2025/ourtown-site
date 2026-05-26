@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const link = (p: string) => `${base}${p}`;
+const img = (p: string) => `${base}/images/${p}`;
+
+const team = [
+  {
+    name: 'Brad Lechtenberg',
+    role: 'Managing Member',
+    photo: 'brad.jpg',
+    bio: 'Marketing and business development strategist focused on empowering small enterprises. Brad lives by Napoleon Hill\'s line: "You can succeed best and quickest by helping others succeed."',
+  },
+  {
+    name: 'Shari Figi',
+    role: 'Managing Member',
+    photo: 'shari.jpg',
+    bio: 'Former real-estate finance professional. Now an advocate for endangered heirloom apples and local pollinators — and a believer that every part of a community is connected to every other.',
+  },
+  {
+    name: 'Laura',
+    role: 'Managing Member',
+    photo: 'laura.jpg',
+    bio: 'Serial entrepreneur with 35+ years of experience across landscaping, real estate, and law. Convinced that investing in your community is the most reliable form of long-term growth.',
+  },
+];
+
+const split = [
+  { pct: '80–90%', label: 'Local business', body: 'The shop that earned the sale keeps the lion\'s share.' },
+  { pct: '5–15%', label: 'Your chosen cause', body: 'Goes directly to the nonprofit a shopper or business selects.' },
+  { pct: '5%', label: 'Our Town', body: 'Funds the platform — hosting, payments, listings, support.' },
+];
+---
+<BaseLayout title="About — Our Town" description="Our Town is a community marketplace built on a simple idea: communities are stronger when they support each other. Meet the team and the model.">
+  <section class="container-x pt-20 pb-12">
+    <p class="eyebrow mb-4">About Our Town</p>
+    <h1 class="text-4xl md:text-5xl max-w-3xl">Communities are stronger when they support each other.</h1>
+    <p class="mt-6 text-lg text-ink-soft max-w-2xl">
+      Our Town is a marketplace built around a single, stubborn idea: when a neighborhood shops with intention, everyone — buyers, businesses, and the causes they care about — comes out ahead.
+    </p>
+  </section>
+
+  <!-- The split -->
+  <section class="container-x py-16">
+    <div class="grid md:grid-cols-2 gap-12 items-start">
+      <div>
+        <p class="eyebrow mb-3">The model</p>
+        <h2 class="text-3xl md:text-4xl">A transparent three-way split.</h2>
+        <p class="mt-5 text-ink-soft">
+          Most marketplaces hide where your money goes. We do the opposite: every transaction shows exactly who gets what, in real time, before you check out.
+        </p>
+      </div>
+      <ul class="space-y-4">
+        {split.map((s) => (
+          <li class="card flex gap-6 items-start">
+            <div class="font-display text-4xl text-brand-600 w-32 shrink-0">{s.pct}</div>
+            <div>
+              <div class="font-semibold">{s.label}</div>
+              <p class="text-sm text-ink-soft mt-1">{s.body}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="bg-white border-y border-ink/10">
+    <div class="container-x py-20">
+      <div class="max-w-2xl mb-12">
+        <p class="eyebrow mb-3">The team</p>
+        <h2 class="text-3xl md:text-4xl">Three managing members. One operating principle.</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        {team.map((p) => (
+          <article class="rounded-2xl bg-cream p-6 border border-ink/5">
+            <div class="aspect-square rounded-xl overflow-hidden bg-sand">
+              <img src={img(p.photo)} alt={p.name} loading="lazy" class="w-full h-full object-cover" />
+            </div>
+            <h3 class="mt-5 text-xl">{p.name}</h3>
+            <p class="text-sm text-brand-600 uppercase tracking-wider mt-1">{p.role}</p>
+            <p class="mt-3 text-ink-soft text-sm">{p.bio}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="container-x py-20">
+    <div class="grid md:grid-cols-[1fr_2fr] gap-12">
+      <div>
+        <p class="eyebrow mb-3">What we believe</p>
+        <h2 class="text-3xl md:text-4xl">A short list, faithfully kept.</h2>
+      </div>
+      <ul class="space-y-6">
+        <li><h3 class="text-xl">Local is a verb.</h3><p class="text-ink-soft mt-2">A community isn't a logo or a slogan — it's the sum of who shows up for whom. We build the rails that make showing up easier.</p></li>
+        <li><h3 class="text-xl">Transparency is non-negotiable.</h3><p class="text-ink-soft mt-2">You should always know where every dollar lands. If we ever obscure that, we've broken our promise.</p></li>
+        <li><h3 class="text-xl">Small businesses keep the lights on.</h3><p class="text-ink-soft mt-2">They take the risk, they staff the counter, they sponsor the little league. Our economics are tilted in their favor on purpose.</p></li>
+        <li><h3 class="text-xl">Causes deserve patient revenue.</h3><p class="text-ink-soft mt-2">Nonprofits should be able to plan beyond the next campaign. Our model turns everyday shopping into a quiet, steady donation stream.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="container-x pb-24">
+    <div class="rounded-3xl bg-brand-500 text-white p-10 md:p-16 grid md:grid-cols-[1.4fr_1fr] gap-8 items-center">
+      <div>
+        <h2 class="text-3xl md:text-4xl text-white">Want to be part of it?</h2>
+        <p class="mt-4 text-brand-100/90 max-w-prose">Whether you shop, sell, or fundraise, there's a door for you.</p>
+      </div>
+      <div class="flex flex-wrap gap-3 md:justify-end">
+        <a href={link('/shoppers')} class="btn bg-white text-brand-700 hover:bg-cream">Shoppers</a>
+        <a href={link('/businesses')} class="btn bg-accent-700 text-white hover:bg-accent-800">Businesses</a>
+        <a href={link('/causes')} class="btn border border-white/30 text-white hover:bg-white/10">Causes</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

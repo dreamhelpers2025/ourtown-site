@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const link = (p: string) => `${base}${p}`;
+
+const paths = [
+  { title: 'List my business', body: 'Get a free storefront and start reaching local shoppers.', cta: 'Start signup', href: 'https://www.ourtown.store/business/signup' },
+  { title: 'Nominate a cause', body: 'Add a local nonprofit to the Our Town directory.', cta: 'Nominate', href: '/causes#nominate' },
+  { title: 'I just want to shop', body: 'Browse stores, products, and curated baskets near you.', cta: 'Browse stores', href: 'https://www.ourtown.store/business/store/near' },
+];
+---
+<BaseLayout title="Contact — Our Town" description="Reach the Our Town team. We answer business signup, cause listing, and general questions.">
+  <section class="container-x pt-20 pb-12">
+    <p class="eyebrow mb-4">Contact</p>
+    <h1 class="text-4xl md:text-5xl max-w-3xl">Tell us what you need.</h1>
+    <p class="mt-6 text-lg text-ink-soft max-w-2xl">
+      Most questions are faster to handle through one of the paths below. If yours isn't, the form is the right way to reach us.
+    </p>
+  </section>
+
+  <section class="container-x py-10">
+    <div class="grid sm:grid-cols-3 gap-5">
+      {paths.map((p) => (
+        <a href={p.href.startsWith('http') ? p.href : link(p.href)} class="card card-hover flex flex-col">
+          <h3 class="text-lg">{p.title}</h3>
+          <p class="mt-2 text-sm text-ink-soft flex-1">{p.body}</p>
+          <span class="mt-4 text-brand-600 text-sm font-medium inline-flex items-center gap-1">{p.cta} →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="container-x py-16 grid md:grid-cols-[1fr_1.2fr] gap-12">
+    <div>
+      <p class="eyebrow mb-3">Other ways to reach us</p>
+      <h2 class="text-3xl">Direct lines.</h2>
+      <ul class="mt-6 space-y-4 text-ink-soft">
+        <li><div class="text-xs uppercase tracking-widest text-ink/50">Email</div><a class="text-ink hover:text-brand-600" href="mailto:hello@ourtown.store">hello@ourtown.store</a></li>
+        <li><div class="text-xs uppercase tracking-widest text-ink/50">Business signups</div><a class="text-ink hover:text-brand-600" href="mailto:business@ourtown.store">business@ourtown.store</a></li>
+        <li><div class="text-xs uppercase tracking-widest text-ink/50">Causes</div><a class="text-ink hover:text-brand-600" href="mailto:causes@ourtown.store">causes@ourtown.store</a></li>
+      </ul>
+    </div>
+    <form action="https://formspree.io/f/your-id" method="POST" class="rounded-3xl bg-white border border-ink/10 p-8 space-y-5">
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium" for="name">Name</label>
+          <input id="name" name="name" required class="mt-1 w-full rounded-lg border border-ink/15 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium" for="email">Email</label>
+          <input id="email" type="email" name="email" required class="mt-1 w-full rounded-lg border border-ink/15 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500" />
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-medium" for="topic">I'm reaching out about</label>
+        <select id="topic" name="topic" class="mt-1 w-full rounded-lg border border-ink/15 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 bg-white">
+          <option>Listing my business</option>
+          <option>Listing a cause</option>
+          <option>An order</option>
+          <option>Press / partnerships</option>
+          <option>Something else</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium" for="message">Message</label>
+        <textarea id="message" name="message" rows="5" required class="mt-1 w-full rounded-lg border border-ink/15 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"></textarea>
+      </div>
+      <button type="submit" class="btn-primary w-full">Send message</button>
+      <p class="text-xs text-ink/50">Replace the Formspree URL with a real endpoint before going live.</p>
+    </form>
+  </section>
+</BaseLayout>

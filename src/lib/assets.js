@@ -97,13 +97,16 @@ export async function resolveAssets(campaign, tokens) {
   const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
 
   const [
-    businessLogo, businessLogoOnDark, causeLogo, causeLogoOnDark, product,
+    businessLogo, businessLogoOnDark, causeLogo, causeLogoOnDark,
+    causeLogoCompact, businessLogoCompact, product,
     qrLight, qrDark, otWordmark,
   ] = await Promise.all([
     toDataUri(campaign.business.logo, baseDir),
     toDataUri(campaign.business.logoOnDark ?? campaign.business.logo, baseDir),
     toDataUri(campaign.cause.logo, baseDir),
     toDataUri(campaign.cause.logoOnDark ?? campaign.cause.logo, baseDir),
+    toDataUri(campaign.cause.logoCompact ?? campaign.cause.logo, baseDir),
+    toDataUri(campaign.business.logoCompact ?? campaign.business.logo, baseDir),
     toDataUri(campaign.product.image, baseDir),
     qrDataUri(campaign.campaignUrl, { dark: tokens.color.ink.DEFAULT, light: '#ffffff' }),
     qrDataUri(campaign.campaignUrl, { dark: '#ffffff', light: tokens.color.ink.DEFAULT }),
@@ -114,7 +117,8 @@ export async function resolveAssets(campaign, tokens) {
   const size = productBuf && imageSize(productBuf);
 
   return {
-    businessLogo, businessLogoOnDark, causeLogo, causeLogoOnDark, product,
+    businessLogo, businessLogoOnDark, causeLogo, causeLogoOnDark,
+    causeLogoCompact, businessLogoCompact, product,
     qrLight, qrDark, otWordmark,
     productAspect: size ? size.width / size.height : null,
   };

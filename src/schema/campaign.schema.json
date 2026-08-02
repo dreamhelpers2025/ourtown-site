@@ -80,10 +80,7 @@
     "formats": {
       "type": "array",
       "items": {
-        "enum": [
-          "ig-square", "story", "poster", "linkedin", "x",
-          "web-hero", "email-header", "counter-card", "table-tent"
-        ]
+        "enum":["ig-square","ig-carousel","story","linkedin","x","web-hero","email-header","sidebar-banner","poster","flyer","counter-card","table-tent","window-cling"]
       },
       "default": ["ig-square", "story", "poster"]
     }
@@ -99,6 +96,10 @@
         "shortName": { "type": "string", "maxLength": 24, "description": "Used where the full name would not fit, e.g. story format." },
         "logo": { "type": "string", "description": "Path or URL. SVG or transparent PNG." },
         "logoOnDark": { "type": "string", "description": "Optional light-on-dark variant. Falls back to logo." },
+        "logoCompact": {
+          "type": "string",
+          "description": "Optional square/badge variant for tight surfaces (sidebar banner, small print). A horizontal lockup shrunk to fit a 300px column becomes unreadable; a compact mark does not. Falls back to logo."
+        },
         "logoStyle": {
           "enum": ["bare", "tile"],
           "default": "bare",

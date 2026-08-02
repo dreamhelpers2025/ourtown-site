@@ -128,29 +128,32 @@ async function main() {
     for (const job of expandJobs(campaign)) {
       const template = getTemplate(job.format);
       const progress = progressFor(campaign, job.moment);
-      const html = template.render({ campaign, tokens, moment: job.moment, progress, assets, business, cause });
-
       const outDir = path.join(root, 'graphics', job.moment.id);
-      const written = await renderer.render({
-        html,
-        spec: template.spec,
-        outDir,
-        basename: job.format,
-      });
 
-      for (const { file, bytes } of written) {
-        const rel = path.relative(root, file).replace(/\\/g, '/');
-        manifest.assets.push({
-          path: rel,
-          format: job.format,
-          moment: job.moment.id,
-          type: path.extname(file).slice(1),
-          width: template.spec.width,
-          height: template.spec.height,
-          unit: template.spec.unit,
-          bytes,
-        });
-        console.log(`  ${c.green('✓')} ${rel} ${c.dim(`${(bytes / 1024).toFixed(0)}kb`)}`);
+      // A format may emit several images -- a carousel is one format, N slides.
+      const slides = template.spec.slides ?? 1;
+
+      for (let slide = 0; slide < slides; slide++) {
+        const html = template.render({ campaign, tokens, moment: job.moment, progress, assets, business, cause, slide });
+        const basename = slides > 1 ? `${job.format}-${String(slide + 1).padStart(2, '0')}` : job.format;
+
+        const written = await renderer.render({ html, spec: template.spec, outDir, basename });
+
+        for (const { file, bytes } of written) {
+          const rel = path.relative(root, file).replace(/\\/g, '/');
+          manifest.assets.push({
+            path: rel,
+            format: job.format,
+            moment: job.moment.id,
+            type: path.extname(file).slice(1),
+            width: template.spec.width,
+            height: template.spec.height,
+            unit: template.spec.unit,
+            ...(slides > 1 ? { slide: slide + 1, slides } : {}),
+            bytes,
+          });
+          console.log(`  ${c.green('✓')} ${rel} ${c.dim(`${(bytes / 1024).toFixed(0)}kb`)}`);
+        }
       }
     }
   } finally {

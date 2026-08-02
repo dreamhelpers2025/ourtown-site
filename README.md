@@ -84,6 +84,11 @@ delivered with a background already baked in use `logoStyle: "tile"` and get
 rounded corners, so they read as a badge rather than an un-knocked-out
 rectangle — which is how the Volcanoes JPEG is handled.
 
+**Compact logo variants.** A horizontal lockup shrunk into a 300px sidebar
+column becomes an illegible smudge. `logoCompact` lets a partner supply a
+square or badge mark for tight surfaces; VYB's circular mark is used there and
+their full lockup everywhere else.
+
 **Disclosure as a first-class element.** See below.
 
 ## Disclosure
@@ -97,11 +102,15 @@ percentage the nonprofit receives rather than a vague "supports," with some
 states also requiring registration and a written agreement with the charity.
 
 This tool does not attempt to be compliant on anyone's behalf. It guarantees
-only that a disclosure is **present and legible on every asset** — on the poster
-it's held above 8pt, and it's appended to every copy channel so the claim and
-the disclosure always travel together. **The wording in
-`campaigns/volcanoes-vyb.json` is placeholder text and needs review by the
-partners' counsel before anything ships.**
+only that a disclosure is **present and legible on every asset** — held above
+8pt on print, and appended to every copy channel so the claim and the
+disclosure always travel together. The tightest surface is the 300×600 sidebar
+banner, where it renders at 9px rather than being dropped; if a future format
+genuinely cannot carry the disclosure, that format should not carry the claim
+either.
+
+**The `$18` figure and the exact wording are the partners' to confirm with
+counsel before anything ships.**
 
 ## Rules that are enforced, not just documented
 
@@ -118,15 +127,43 @@ From `tokens.rules` — these bind in code rather than living in a PDF:
 
 ## Current state
 
-Nine formats: `ig-square` (1080×1080), `story` (1080×1920), `linkedin`
-(1200×627), `x` (1600×900), `web-hero` (1600×600), `email-header` (1200×400),
-`poster` (8.5×11in), `counter-card` (5×7in), `table-tent` (4×6in). The three
-print formats emit PDF and PNG; the rest emit PNG.
+Thirteen formats.
+
+| | Format | Size |
+|---|---|---|
+| **Social** | `ig-square` | 1080×1080 |
+| | `ig-carousel` | 1080×1080 × 5 slides |
+| | `story` | 1080×1920 |
+| | `linkedin` | 1200×627 |
+| | `x` | 1600×900 |
+| **Web + email** | `web-hero` | 1600×600 |
+| | `email-header` | 1200×400 |
+| | `sidebar-banner` | 300×600 |
+| **Print** | `poster` | 8.5×11 in |
+| | `flyer` | 8.5×11 in |
+| | `counter-card` | 5×7 in |
+| | `table-tent` | 4×6 in |
+| | `window-cling` | 12×18 in |
+
+Print formats emit PDF and PNG; the rest emit PNG.
 
 Moments: `launch`, `halfway`, `goal`. Channels: Facebook, Instagram, LinkedIn,
 X, email, newsletter, press release.
 
-One campaign currently produces **36 graphics and 21 copy assets**.
+One campaign currently produces **66 graphics and 21 copy assets**.
+
+A few of these are deliberately not variations on a theme:
+
+- **`ig-carousel`** builds an argument across five slides — hook, product,
+  cause, where the money goes, call to action. Slide 4 states the split in
+  plain numbers (`$35 → $18`), parsed from the disclosure itself. That is the
+  one thing a single graphic never has room to say.
+- **`flyer`** is not a second poster at the same trim. A poster is read across
+  a room and carries one idea; a flyer is held, so it carries the mechanics —
+  how it works, who the cause is, what the per-item amount is.
+- **`window-cling`** renders its QR at ~3.4in, not the 1.25in floor. The
+  minimum is a legality, not a target, and a counter-card-sized code on glass
+  does not get scanned.
 
 ### Asset status
 
@@ -149,7 +186,6 @@ requesting — none of these block anything, they just raise the ceiling:
 
 ### Not done yet
 
-- Remaining formats: flyer, window cling, sidebar banner, Instagram carousel
 - Print is RGB, which is right for digital/office printing. Offset work needs a CMYK step.
 - Webfonts load from Google Fonts at render time, so the first render needs network access.
 - Schema is enforced by a hand-written validator in `src/lib/campaign.js`; the JSON Schema is the reference contract.

@@ -61,8 +61,11 @@ export function shell({ width, height, unit = 'px', css, body, tokens }) {
      resolves the pairing in the footer. */
   .lockup { display: flex; align-items: center; justify-content: center; gap: 2.2rem; }
   .lockup img { object-fit: contain; display: block; }
-  .lockup .hero-mark { height: 6.6rem; max-width: 30rem; }
-  .lockup .cause-mark { height: 5.0rem; max-width: 24rem; }
+  /* Sized generously because supplied marks often carry their own internal
+     padding -- the VYB horizontal lockup is ~1280x896 with the artwork
+     occupying well under half the frame, so a nominal height renders small. */
+  .lockup .hero-mark { height: 8.4rem; max-width: 34rem; }
+  .lockup .cause-mark { height: 7.6rem; max-width: 32rem; }
   .lockup .cross { font-family: ${tokens.font.display}; font-weight: 600; font-size: 2.6rem; opacity: 0.4; }
   .supports {
     text-align: center; font-size: 1.5rem; font-weight: 600;
@@ -105,6 +108,24 @@ export function shell({ width, height, unit = 'px', css, body, tokens }) {
     background: #fff; border-radius: ${tokens.radius.sm};
     padding: 0.75rem 1.2rem; box-shadow: 0 0.2rem 0.9rem -0.35rem rgba(0,0,0,.4);
   }
+  /* For marks delivered with their own background baked in. Rounding the block
+     makes it read as a badge instead of an un-knocked-out rectangle. */
+  .mark-tile {
+    display: inline-flex; overflow: hidden; border-radius: ${tokens.radius.md};
+    box-shadow: 0 0.15rem 0.7rem -0.3rem rgba(0,0,0,.35);
+  }
+  .mark-tile img { display: block; }
+
+  /* Photographic products keep their own background inside a framed card.
+     The card is sized by its stage, never by the source image -- a 2790x3308
+     photo must not be allowed to dictate the canvas. */
+  .product-card {
+    overflow: hidden; border-radius: ${tokens.radius.lg};
+    box-shadow: ${tokens.shadow.lift}; background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    height: 100%; width: auto; max-width: 100%; max-height: 100%; min-height: 0;
+  }
+  .product-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   /* --- QR --------------------------------------------------------------- */
   .qr-block { display: flex; align-items: center; gap: 1.5rem; }
@@ -116,8 +137,16 @@ export function shell({ width, height, unit = 'px', css, body, tokens }) {
      The disclosure is a first-class element, not an afterthought: charitable
      sales promotions are regulated in many states and the required amount
      statement has to actually be legible on the finished piece. */
-  .powered { display: flex; align-items: center; gap: 0.8rem; font-size: 1.45rem; font-weight: 600; letter-spacing: 0.06em; }
-  .powered .ot-mark { height: 2.4rem; }
+  .powered { display: flex; align-items: center; gap: 0.75rem; }
+  .powered .powered-label {
+    font-size: 1.25rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; opacity: 0.7; white-space: nowrap;
+  }
+  .powered .ot-mark { height: 2.1rem; width: auto; display: block; }
+  /* The gold wordmark (#f8a800) does not clear contrast on cream, and no
+     transparent dark version was supplied -- brightness(0) knocks the solid
+     wordmark to ink while preserving its alpha. */
+  .powered .ot-mark--ink { filter: brightness(0); opacity: 0.78; }
   .disclosure { font-size: 1.12rem; line-height: 1.35; opacity: 0.72; max-width: 62rem; }
 
   ${css}
@@ -132,22 +161,41 @@ ${body}
 /**
  * Renders a partner mark that is about to sit on a colored field.
  *
- * With a supplied `logoOnDark` we trust the partner's own variant. Without one,
- * the mark is chipped onto white rather than gambling that none of its ink
- * matches the field behind it.
+ * A mark supplied with its own baked-in background (`logoStyle: "tile"`) is
+ * already opaque, so it just gets rounded corners. A transparent mark with a
+ * supplied `logoOnDark` variant is trusted as-is. Anything else is chipped onto
+ * white rather than gambling that none of its ink matches the field behind it.
  */
-export function markOnField({ src, hasDarkVariant, alt, className }) {
+export function markOnField({ src, hasDarkVariant, logoStyle, alt, className }) {
   const img = `<img class="${className}" src="${src}" alt="${alt}">`;
+  if (logoStyle === 'tile') return `<span class="mark-tile">${img}</span>`;
   return hasDarkVariant ? img : `<span class="mark-chip">${img}</span>`;
 }
 
-/** Inline OurTown wordmark so the footer lockup never depends on an external file. */
-export function ourtownMark(color) {
-  return /* html */ `<svg class="ot-mark" viewBox="0 0 260 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="OurTown">
-    <circle cx="20" cy="20" r="16" stroke="${color}" stroke-width="4"/>
-    <path d="M13 22 L20 12 L27 22 L27 28 L13 28 Z" fill="${color}"/>
-    <text x="46" y="29" font-family="Poppins, sans-serif" font-weight="800" font-size="26" fill="${color}">OurTown</text>
-  </svg>`;
+/** A partner mark on a light surface. Tiles keep their rounded treatment. */
+export function mark({ src, logoStyle, alt, className }) {
+  const img = `<img class="${className}" src="${src}" alt="${alt}">`;
+  return logoStyle === 'tile' ? `<span class="mark-tile">${img}</span>` : img;
+}
+
+/**
+ * The real OurTown wordmark. Dark on light surfaces, gold on dark ones --
+ * the gold reads at #f8a800 and would not clear contrast on cream.
+ */
+export function ourtownMark(assets, onDark = false) {
+  return `<span class="powered-label">Powered by</span><img class="ot-mark${onDark ? '' : ' ot-mark--ink'}" src="${assets.otWordmark}" alt="OurTown">`;
+}
+
+/** Product imagery: a floating cutout, or a photo framed in a card. */
+export function productHtml(campaign, assets, tokens, { priceStyle = '' } = {}) {
+  const alt = campaign.product.alt ?? campaign.product.name;
+  // Matching the card to the photo's own ratio means `cover` crops nothing.
+  const ratio = assets.productAspect ? `aspect-ratio:${assets.productAspect};` : '';
+  const img = campaign.product.style === 'photo'
+    ? `<span class="product-card" style="${ratio}"><img src="${assets.product}" alt="${alt}"></span>`
+    : `<img src="${assets.product}" alt="${alt}">`;
+  return `${img}
+    <span class="price-tag" style="background:${tokens.role.brand}; color:${tokens.role.onBrand}; ${priceStyle}">${campaign.product.price}</span>`;
 }
 
 export function badgeHtml(ids = [], tokens, palette) {

@@ -33,7 +33,10 @@ export const MOMENTS = {
 };
 
 const DEFAULT_MOMENTS = ['launch', 'halfway', 'goal'];
-const DEFAULT_FORMATS = ['ig-square', 'story', 'poster'];
+const DEFAULT_FORMATS = [
+  'ig-square', 'story', 'poster', 'linkedin', 'x',
+  'web-hero', 'email-header', 'counter-card', 'table-tent',
+];
 
 function fail(errors) {
   const err = new Error(`Invalid campaign:\n  - ${errors.join('\n  - ')}`);

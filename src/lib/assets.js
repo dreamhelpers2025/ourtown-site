@@ -7,6 +7,7 @@
  */
 
 import { readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import QRCode from 'qrcode';
 
@@ -16,7 +17,44 @@ const MIME = {
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
+  '.jfif': 'image/jpeg',
 };
+
+/**
+ * Intrinsic pixel size from a PNG or JPEG header.
+ *
+ * Templates use this to give a photographic product card the photo's own aspect
+ * ratio. Without it the card either letterboxes (contain) or crops the product
+ * out of frame (cover) -- matching the ratio avoids both.
+ * Returns null for formats we don't parse (e.g. SVG), and callers fall back.
+ */
+export function imageSize(buf) {
+  if (buf.length > 24 && buf.slice(1, 4).toString('latin1') === 'PNG') {
+    return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
+  }
+  if (buf.length > 4 && buf[0] === 0xff && buf[1] === 0xd8) {
+    let i = 2;
+    while (i < buf.length - 9) {
+      if (buf[i] !== 0xff) { i++; continue; }
+      const marker = buf[i + 1];
+      const isSOF = marker >= 0xc0 && marker <= 0xcf &&
+        marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc;
+      if (isSOF) return { height: buf.readUInt16BE(i + 5), width: buf.readUInt16BE(i + 7) };
+      if (marker === 0xd8 || marker === 0x01 || (marker >= 0xd0 && marker <= 0xd7)) { i += 2; continue; }
+      i += 2 + buf.readUInt16BE(i + 2);
+    }
+  }
+  return null;
+}
+
+async function readAsset(ref, baseDir) {
+  if (!ref || ref.startsWith('data:') || /^https?:\/\//.test(ref)) return null;
+  try {
+    return await readFile(path.resolve(baseDir, ref));
+  } catch {
+    return null;
+  }
+}
 
 export async function toDataUri(ref, baseDir) {
   if (!ref) return null;
@@ -56,16 +94,28 @@ export async function qrDataUri(url, { dark = '#2f2f2f', light = '#ffffff' } = {
 /** Pre-resolves every asset a template might need, once per campaign. */
 export async function resolveAssets(campaign, tokens) {
   const { baseDir } = campaign;
-  const [businessLogo, businessLogoOnDark, causeLogo, causeLogoOnDark, product, qrLight, qrDark] =
-    await Promise.all([
-      toDataUri(campaign.business.logo, baseDir),
-      toDataUri(campaign.business.logoOnDark ?? campaign.business.logo, baseDir),
-      toDataUri(campaign.cause.logo, baseDir),
-      toDataUri(campaign.cause.logoOnDark ?? campaign.cause.logo, baseDir),
-      toDataUri(campaign.product.image, baseDir),
-      qrDataUri(campaign.campaignUrl, { dark: tokens.color.ink.DEFAULT, light: '#ffffff' }),
-      qrDataUri(campaign.campaignUrl, { dark: '#ffffff', light: tokens.color.ink.DEFAULT }),
-    ]);
+  const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
 
-  return { businessLogo, businessLogoOnDark, causeLogo, causeLogoOnDark, product, qrLight, qrDark };
+  const [
+    businessLogo, businessLogoOnDark, causeLogo, causeLogoOnDark, product,
+    qrLight, qrDark, otWordmark,
+  ] = await Promise.all([
+    toDataUri(campaign.business.logo, baseDir),
+    toDataUri(campaign.business.logoOnDark ?? campaign.business.logo, baseDir),
+    toDataUri(campaign.cause.logo, baseDir),
+    toDataUri(campaign.cause.logoOnDark ?? campaign.cause.logo, baseDir),
+    toDataUri(campaign.product.image, baseDir),
+    qrDataUri(campaign.campaignUrl, { dark: tokens.color.ink.DEFAULT, light: '#ffffff' }),
+    qrDataUri(campaign.campaignUrl, { dark: '#ffffff', light: tokens.color.ink.DEFAULT }),
+    toDataUri(tokens.brandAssets.wordmark, repoRoot),
+  ]);
+
+  const productBuf = await readAsset(campaign.product.image, baseDir);
+  const size = productBuf && imageSize(productBuf);
+
+  return {
+    businessLogo, businessLogoOnDark, causeLogo, causeLogoOnDark, product,
+    qrLight, qrDark, otWordmark,
+    productAspect: size ? size.width / size.height : null,
+  };
 }

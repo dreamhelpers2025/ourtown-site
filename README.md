@@ -57,9 +57,10 @@ Three logos, three different jobs — never three equal marks:
 - **Beneficiary** — the cause. Secondary mark, accent color only.
 - **Powered by** — OurTown. Always resolves the pairing in the footer.
 
-Tokens carry over from the ourtown.store site build so campaign assets and the
-website can't drift: Town Gold `#d99e23` primary, Community Navy `#295f98`
-accent, cream `#f7f2e8` surface, Inter + Poppins.
+Tokens: OurTown Gold `#f8a800` primary, Community Navy `#295f98` accent, cream
+`#f7f2e8` surface, Inter + Poppins. The gold is sampled from the supplied
+wordmark — the ourtown.store site build uses `#d99e23`, which is noticeably
+duller than the real logo and should be brought to this value.
 
 ### Campaign moments
 
@@ -76,9 +77,12 @@ they clear WCAG. Vancouver Youth Basketball's orange is a live example — it
 comes in at 2.68:1 on cream and gets corrected, with the change reported rather
 than applied silently.
 
-**Logo chips.** A red wordmark on that partner's own red band disappears. Unless
-a `logoOnDark` variant is supplied, the mark is chipped onto white, and the
-build emits an asset request for the missing variant.
+**Logo chips and tiles.** A wordmark on that partner's own brand color
+disappears. Unless a `logoOnDark` variant is supplied, the mark is chipped onto
+white and the build emits an asset request for the missing variant. Marks
+delivered with a background already baked in use `logoStyle: "tile"` and get
+rounded corners, so they read as a badge rather than an un-knocked-out
+rectangle — which is how the Volcanoes JPEG is handled.
 
 **Disclosure as a first-class element.** See below.
 
@@ -107,32 +111,45 @@ From `tokens.rules` — these bind in code rather than living in a PDF:
 |---|---|
 | Business / cause name | ≤ 40 chars |
 | Headline | ≤ 48 chars |
-| QR minimum | 1.25 in (poster renders 1.275 in) |
-| Disclosure minimum | 8 pt at letter size (poster renders 8.26 pt) |
+| QR minimum | 1.25 in — print templates compute this from canvas width |
+| Disclosure minimum | 8 pt — likewise computed per size, not hardcoded |
 | Body text contrast | ≥ 4.5:1 |
 | OurTown mark | always present, footer |
 
 ## Current state
 
-Formats: `ig-square` (1080×1080), `story` (1080×1920), `poster` (8.5×11in,
-PDF + PNG). Moments: `launch`, `halfway`, `goal`. Channels: Facebook,
-Instagram, LinkedIn, X, email, newsletter, press release.
+Nine formats: `ig-square` (1080×1080), `story` (1080×1920), `linkedin`
+(1200×627), `x` (1600×900), `web-hero` (1600×600), `email-header` (1200×400),
+`poster` (8.5×11in), `counter-card` (5×7in), `table-tent` (4×6in). The three
+print formats emit PDF and PNG; the rest emit PNG.
 
-One campaign currently produces **12 graphics and 21 copy assets**.
+Moments: `launch`, `halfway`, `goal`. Channels: Facebook, Instagram, LinkedIn,
+X, email, newsletter, press release.
 
-### Placeholders
+One campaign currently produces **36 graphics and 21 copy assets**.
 
-Everything in `campaigns/assets/placeholder/` is a stand-in and is visibly
-marked as such. Swap in real assets by editing the paths in the campaign JSON —
-no code changes needed. What to request:
+### Asset status
 
-- Vector logos (SVG preferred) for both partners, plus light-on-dark variants
-- Product photography, transparent PNG, 1500px+ on the long edge
-- Confirmed disclosure wording
+Real partner assets are in `campaigns/assets/volcanoes-vyb/`. Still worth
+requesting — none of these block anything, they just raise the ceiling:
+
+- **A vector or transparent Volcanoes mark.** The only usable file supplied is a
+  512×287 JPEG of the badge on a solid blue field, so it renders via
+  `logoStyle: "tile"`. That reads as an intentional badge, but the mark can't
+  sit on a light surface without its blue block, and 512px is thin for large
+  print. (`VV logo.png` in the handoff was not an image at all — it was a saved
+  Columbian.com article page.)
+- **A light-on-dark Volcanoes variant**, so the mark can drop the white chip.
+- **A transparent-background hat photo.** The supplied shot is a 2790×3308 JPEG
+  carrying its own background, so it renders as `style: "photo"` in a framed
+  card sized to the photo's aspect ratio.
+- **A transparent dark OurTown wordmark.** Both supplied PNGs are gold; the
+  black version exists only as a JPEG, so the dark variant is derived with a
+  `brightness(0)` filter.
 
 ### Not done yet
 
-- Remaining formats: LinkedIn, X, counter card, table tent, flyer, email header, web hero
+- Remaining formats: flyer, window cling, sidebar banner, Instagram carousel
 - Print is RGB, which is right for digital/office printing. Offset work needs a CMYK step.
 - Webfonts load from Google Fonts at render time, so the first render needs network access.
 - Schema is enforced by a hand-written validator in `src/lib/campaign.js`; the JSON Schema is the reference contract.

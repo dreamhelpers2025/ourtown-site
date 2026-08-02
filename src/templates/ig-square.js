@@ -1,6 +1,6 @@
 /** Instagram / Facebook square, 1080x1080. */
 
-import { shell, ourtownMark, badgeHtml, progressHtml, markOnField } from './base.js';
+import { shell, ourtownMark, badgeHtml, progressHtml, markOnField, mark, productHtml } from './base.js';
 import { onColor } from '../lib/color.js';
 
 export const spec = { id: 'ig-square', width: 1080, height: 1080, unit: 'px', outputs: ['png'], label: 'Instagram / Facebook square' };
@@ -15,6 +15,7 @@ export function render({ campaign, tokens, moment, progress, assets, business, c
       ${markOnField({
         src: assets.businessLogoOnDark,
         hasDarkVariant: Boolean(campaign.business.logoOnDark),
+        logoStyle: campaign.business.logoStyle,
         alt: campaign.business.name,
         className: 'biz-mark',
       })}
@@ -28,18 +29,15 @@ export function render({ campaign, tokens, moment, progress, assets, business, c
       <h1 class="display headline">${headline}</h1>
 
       <div class="product-stage">
-        <img src="${assets.product}" alt="${campaign.product.alt ?? campaign.product.name}">
-        <span class="price-tag" style="background:${tokens.role.brand}; color:${tokens.role.onBrand}">
-          <span class="amt">${campaign.product.price}</span>
-        </span>
+        ${productHtml(campaign, assets, tokens)}
       </div>
 
       <div class="meta">
         <p class="supports">Every purchase supports</p>
         <div class="lockup">
-          <img class="hero-mark" src="${assets.businessLogo}" alt="${campaign.business.name}">
+          ${mark({ src: assets.businessLogo, logoStyle: campaign.business.logoStyle, alt: campaign.business.name, className: 'hero-mark' })}
           <span class="cross">&times;</span>
-          <img class="cause-mark" src="${assets.causeLogo}" alt="${campaign.cause.name}">
+          ${mark({ src: assets.causeLogo, logoStyle: campaign.cause.logoStyle, alt: campaign.cause.name, className: 'cause-mark' })}
         </div>
       </div>
 
@@ -60,7 +58,7 @@ export function render({ campaign, tokens, moment, progress, assets, business, c
         </div>
       </div>
       <div class="foot-right">
-        <div class="powered" style="color:${tokens.role.textSoft}">${ourtownMark(tokens.role.brandDeep)}</div>
+        <div class="powered" style="color:${tokens.role.textSoft}">${ourtownMark(assets)}</div>
         <div class="badges">${badgeHtml(campaign.badges, tokens, business.primary)}</div>
       </div>
     </footer>

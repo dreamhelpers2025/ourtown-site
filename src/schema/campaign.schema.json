@@ -34,6 +34,11 @@
         "name": { "type": "string", "maxLength": 60 },
         "price": { "type": "string", "description": "Pre-formatted display string, e.g. \"$35\"." },
         "image": { "type": "string", "description": "Path or URL. Transparent PNG, 1500px+ on the long edge." },
+        "style": {
+          "enum": ["cutout", "photo"],
+          "default": "cutout",
+          "description": "\"cutout\" floats a transparent product image with a drop shadow. \"photo\" frames a photograph that still has its own background inside a rounded card -- which looks deliberate, unlike a bad automatic knockout."
+        },
         "alt": { "type": "string" }
       }
     },
@@ -74,7 +79,12 @@
 
     "formats": {
       "type": "array",
-      "items": { "enum": ["ig-square", "story", "poster"] },
+      "items": {
+        "enum": [
+          "ig-square", "story", "poster", "linkedin", "x",
+          "web-hero", "email-header", "counter-card", "table-tent"
+        ]
+      },
       "default": ["ig-square", "story", "poster"]
     }
   },
@@ -89,6 +99,11 @@
         "shortName": { "type": "string", "maxLength": 24, "description": "Used where the full name would not fit, e.g. story format." },
         "logo": { "type": "string", "description": "Path or URL. SVG or transparent PNG." },
         "logoOnDark": { "type": "string", "description": "Optional light-on-dark variant. Falls back to logo." },
+        "logoStyle": {
+          "enum": ["bare", "tile"],
+          "default": "bare",
+          "description": "\"bare\" places a transparent mark directly. \"tile\" is for marks supplied with their own baked-in background (e.g. a badge on a solid brand field) -- it gets rounded corners so the block reads as an intentional badge rather than a rectangle someone forgot to knock out."
+        },
         "colors": {
           "type": "object",
           "additionalProperties": false,

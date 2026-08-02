@@ -10,7 +10,7 @@
  * work would need a CMYK conversion step before it goes to a commercial press.
  */
 
-import { shell, ourtownMark, badgeHtml, progressHtml, markOnField } from './base.js';
+import { shell, ourtownMark, badgeHtml, progressHtml, markOnField, mark, productHtml } from './base.js';
 import { onColor } from '../lib/color.js';
 
 export const spec = { id: 'poster', width: 8.5, height: 11, unit: 'in', outputs: ['pdf', 'png'], label: 'Retail poster 8.5x11' };
@@ -24,6 +24,7 @@ export function render({ campaign, tokens, moment, progress, assets, business })
       ${markOnField({
         src: assets.businessLogoOnDark,
         hasDarkVariant: Boolean(campaign.business.logoOnDark),
+        logoStyle: campaign.business.logoStyle,
         alt: campaign.business.name,
         className: 'biz-mark',
       })}
@@ -38,8 +39,7 @@ export function render({ campaign, tokens, moment, progress, assets, business })
       ${campaign.subhead ? `<p class="subhead">${campaign.subhead}</p>` : ''}
 
       <div class="product-stage">
-        <img src="${assets.product}" alt="${campaign.product.alt ?? campaign.product.name}">
-        <span class="price-tag" style="background:${tokens.role.brand}; color:${tokens.role.onBrand}">${campaign.product.price}</span>
+        ${productHtml(campaign, assets, tokens)}
       </div>
 
       <p class="prod-name">${campaign.product.name}</p>
@@ -54,9 +54,9 @@ export function render({ campaign, tokens, moment, progress, assets, business })
       <div class="meta">
         <p class="supports">Every purchase supports</p>
         <div class="lockup">
-          <img class="hero-mark" src="${assets.businessLogo}" alt="${campaign.business.name}">
+          ${mark({ src: assets.businessLogo, logoStyle: campaign.business.logoStyle, alt: campaign.business.name, className: 'hero-mark' })}
           <span class="cross">&times;</span>
-          <img class="cause-mark" src="${assets.causeLogo}" alt="${campaign.cause.name}">
+          ${mark({ src: assets.causeLogo, logoStyle: campaign.cause.logoStyle, alt: campaign.cause.name, className: 'cause-mark' })}
         </div>
         ${campaign.cause.mission ? `<p class="mission">${campaign.cause.mission}</p>` : ''}
       </div>
@@ -73,7 +73,7 @@ export function render({ campaign, tokens, moment, progress, assets, business })
         </div>
       </div>
       <div class="foot-right">
-        <div class="powered" style="color:${tokens.role.textSoft}">${ourtownMark(tokens.role.brandDeep)}</div>
+        <div class="powered" style="color:${tokens.role.textSoft}">${ourtownMark(assets)}</div>
       </div>
     </footer>
 

@@ -6,16 +6,17 @@
   "business": {
     "name": "Vancouver Volcanoes",
     "shortName": "Volcanoes",
-    "logo": "assets/placeholder/volcanoes.svg",
-    "colors": { "primary": "#c8471f", "secondary": "#1f3e63" },
+    "logo": "assets/volcanoes-vyb/VolcanoVolcanoes.jpg",
+    "logoStyle": "tile",
+    "colors": { "primary": "#2048a0", "secondary": "#d02020" },
     "url": "https://www.facebook.com/VancouverVolcanoes"
   },
 
   "cause": {
     "name": "Vancouver Youth Basketball",
     "shortName": "VYB",
-    "logo": "assets/placeholder/vyb.svg",
-    "colors": { "primary": "#e07b28", "secondary": "#234c7b" },
+    "logo": "assets/volcanoes-vyb/VYB long logo transparent.png",
+    "colors": { "primary": "#e86828", "secondary": "#182038" },
     "mission": "Builds character and opportunity for local kids through basketball.",
     "url": "https://www.vancouveryouthbasketball.com"
   },
@@ -23,8 +24,9 @@
   "product": {
     "name": "Volcanoes Community Hat",
     "price": "$35",
-    "image": "assets/placeholder/hat.svg",
-    "alt": "Vancouver Volcanoes community hat"
+    "image": "assets/volcanoes-vyb/IMG-1445.jpg",
+    "style": "photo",
+    "alt": "Vancouver Volcanoes trucker cap with embroidered team badge"
   },
 
   "campaignUrl": "https://www.ourtown.store/c/volcanoes-vyb",
@@ -36,10 +38,10 @@
     "statement": "Support local youth basketball."
   },
 
-  "disclosure": "$10 from the sale of each Volcanoes Community Hat is paid to Vancouver Youth Basketball, a 501(c)(3) nonprofit organization. Campaign runs through September 30, 2026.",
+  "disclosure": "$18 from the sale of each Volcanoes Community Hat is paid to Vancouver Youth Basketball, a 501(c)(3) nonprofit organization. Campaign runs through September 30, 2026.",
 
   "badges": ["shop-local", "gives-back", "community-partner"],
 
   "moments": ["launch", "halfway", "goal"],
-  "formats": ["ig-square", "story", "poster"]
+  "formats": ["ig-square", "story", "poster", "linkedin", "x", "web-hero", "email-header", "counter-card", "table-tent"]
 }

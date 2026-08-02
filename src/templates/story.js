@@ -7,7 +7,7 @@
  * bottom 250px are covered by profile chrome, reply bars and swipe affordances.
  */
 
-import { shell, ourtownMark, badgeHtml, progressHtml, markOnField } from './base.js';
+import { shell, ourtownMark, badgeHtml, progressHtml, markOnField, mark, productHtml } from './base.js';
 import { onColor } from '../lib/color.js';
 
 export const spec = { id: 'story', width: 1080, height: 1920, unit: 'px', outputs: ['png'], label: 'Instagram / Facebook story' };
@@ -26,6 +26,7 @@ export function render({ campaign, tokens, moment, progress, assets, business })
         ${markOnField({
           src: assets.businessLogoOnDark,
           hasDarkVariant: Boolean(campaign.business.logoOnDark),
+          logoStyle: campaign.business.logoStyle,
           alt: campaign.business.name,
           className: 'biz-mark',
         })}
@@ -39,8 +40,7 @@ export function render({ campaign, tokens, moment, progress, assets, business })
         <h1 class="display headline">${campaign.headline}</h1>
 
         <div class="product-stage">
-          <img src="${assets.product}" alt="${campaign.product.alt ?? campaign.product.name}">
-          <span class="price-tag" style="background:${tokens.role.brand}; color:${tokens.role.onBrand}">${campaign.product.price}</span>
+          ${productHtml(campaign, assets, tokens)}
         </div>
 
         <p class="prod-name">${campaign.product.name}</p>
@@ -55,7 +55,7 @@ export function render({ campaign, tokens, moment, progress, assets, business })
         <div class="meta">
           <p class="supports">Every purchase supports</p>
           <div class="lockup">
-            <img class="cause-mark" src="${assets.causeLogo}" alt="${campaign.cause.name}">
+            ${mark({ src: assets.causeLogo, logoStyle: campaign.cause.logoStyle, alt: campaign.cause.name, className: 'cause-mark' })}
           </div>
           <p class="cause-name">${causeName}</p>
         </div>
@@ -71,7 +71,7 @@ export function render({ campaign, tokens, moment, progress, assets, business })
             <div class="url">${campaign.campaignUrl.replace(/^https?:\/\//, '')}</div>
           </div>
         </div>
-        <div class="powered">${ourtownMark(onField)}</div>
+        <div class="powered">${ourtownMark(assets, onField === '#ffffff')}</div>
         <p class="disclosure" style="color:${onField}">${campaign.disclosure}</p>
       </footer>
     </div>

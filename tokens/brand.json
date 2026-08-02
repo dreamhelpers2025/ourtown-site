@@ -2,10 +2,11 @@
   "$comment": "OurTown design tokens. Single source of truth for every generated asset. Values carried over from the ourtown.store site build (tailwind.config.mjs @ 1b98350) so campaign assets and the website cannot drift apart.",
 
   "color": {
+    "$goldNote": "Ramp re-anchored on #f8a800, sampled from the supplied OurTown wordmark (OurTown_Logopng_yellow.png). The site build used #d99e23, which is noticeably duller than the actual logo -- ourtown.store should be brought to this value too.",
     "gold": {
-      "50": "#fdf9ec", "100": "#faf0c8", "200": "#f5e293", "300": "#efd061",
-      "400": "#e8b63e", "500": "#d99e23", "600": "#bb7e1a", "700": "#965e18",
-      "800": "#7a4a1b", "900": "#673e1c"
+      "50": "#fff8e8", "100": "#ffedc2", "200": "#ffd980", "300": "#fdc23f",
+      "400": "#fbb314", "500": "#f8a800", "600": "#d18a00", "700": "#a66a04",
+      "800": "#85540c", "900": "#6d450f"
     },
     "navy": {
       "50": "#eef4fb", "100": "#d4e3f3", "200": "#a9c5e6", "300": "#7ba6d5",
@@ -34,6 +35,11 @@
     "textSoft": "{color.ink.soft}",
     "onBrand": "{color.ink.DEFAULT}",
     "onAccent": "{color.white}"
+  },
+
+  "brandAssets": {
+    "$comment": "Path relative to the repo root. Note the mark reads 'OUR TOWN' as two words. Both supplied PNGs are gold (#e0a030 and #f0a000); the black wordmark exists only as a JPEG with no transparency, so the dark variant is derived from this one with a brightness(0) filter rather than shipping a knocked-out JPEG.",
+    "wordmark": "campaigns/assets/volcanoes-vyb/OurTown_Logopng_yellow.png"
   },
 
   "font": {

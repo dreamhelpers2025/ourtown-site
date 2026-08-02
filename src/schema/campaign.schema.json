@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ourtown.store/schema/campaign.schema.json",
+  "title": "OurTown Campaign",
+  "description": "The single input to the campaign kit. Everything the generator renders comes from this record. This is the contract OurTown's app would POST behind the 'Push Your Campaign' button.",
+  "type": "object",
+  "required": ["id", "business", "cause", "product", "campaignUrl", "goal", "disclosure"],
+  "additionalProperties": false,
+
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$",
+      "description": "Slug. Used for output directory and zip filename."
+    },
+    "headline": {
+      "type": "string",
+      "maxLength": 48,
+      "description": "Campaign-voice headline. Omit to pull from tokens.voice.headlines."
+    },
+    "subhead": { "type": "string", "maxLength": 120 },
+
+    "business": { "$ref": "#/definitions/partner", "description": "The HERO. Dominant logo, colors drive the composition." },
+    "cause": {
+      "allOf": [{ "$ref": "#/definitions/partner" }],
+      "description": "The BENEFICIARY. Secondary logo, colors used as accent only."
+    },
+
+    "product": {
+      "type": "object",
+      "required": ["name", "price", "image"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "maxLength": 60 },
+        "price": { "type": "string", "description": "Pre-formatted display string, e.g. \"$35\"." },
+        "image": { "type": "string", "description": "Path or URL. Transparent PNG, 1500px+ on the long edge." },
+        "alt": { "type": "string" }
+      }
+    },
+
+    "campaignUrl": { "type": "string", "format": "uri", "description": "Encoded into the QR and used in all copy assets." },
+
+    "goal": {
+      "type": "object",
+      "required": ["type", "target"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "enum": ["units", "dollars"] },
+        "target": { "type": "number", "exclusiveMinimum": 0 },
+        "current": { "type": "number", "minimum": 0, "default": 0 },
+        "statement": { "type": "string", "description": "One sentence: what the money does. e.g. \"Support local youth basketball.\"" }
+      }
+    },
+
+    "disclosure": {
+      "type": "string",
+      "minLength": 1,
+      "description": "REQUIRED. Charitable sales promotion / commercial co-venture disclosure, rendered on every asset. Most states that regulate this expect the actual per-unit amount or percentage the nonprofit receives -- not a vague 'supports'. Exact wording is the partners' and their counsel's call; the generator only guarantees it is present and legible."
+    },
+
+    "badges": {
+      "type": "array",
+      "items": { "enum": ["shop-local", "gives-back", "community-partner", "team-partner", "local-impact"] },
+      "maxItems": 3,
+      "description": "Trust markers. Max 3 -- more reads as clutter at story scale."
+    },
+
+    "moments": {
+      "type": "array",
+      "items": { "enum": ["launch", "halfway", "goal"] },
+      "default": ["launch", "halfway", "goal"],
+      "description": "Which campaign moments to render. Each moment overrides goal.current for its own render."
+    },
+
+    "formats": {
+      "type": "array",
+      "items": { "enum": ["ig-square", "story", "poster"] },
+      "default": ["ig-square", "story", "poster"]
+    }
+  },
+
+  "definitions": {
+    "partner": {
+      "type": "object",
+      "required": ["name", "logo"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "maxLength": 40 },
+        "shortName": { "type": "string", "maxLength": 24, "description": "Used where the full name would not fit, e.g. story format." },
+        "logo": { "type": "string", "description": "Path or URL. SVG or transparent PNG." },
+        "logoOnDark": { "type": "string", "description": "Optional light-on-dark variant. Falls back to logo." },
+        "colors": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "primary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "secondary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+          },
+          "description": "Partner brand colors. The renderer contrast-corrects these before use -- a pale partner color will be darkened until it is legible rather than shipped unreadable."
+        },
+        "mission": { "type": "string", "maxLength": 140, "description": "One sentence. Cause only." },
+        "url": { "type": "string", "format": "uri" }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 110" role="img" aria-label="Vancouver Youth Basketball (placeholder)">
+  <title>Vancouver Youth Basketball — PLACEHOLDER</title>
+  <circle cx="52" cy="55" r="34" fill="#e07b28" stroke="#8a4514" stroke-width="4"/>
+  <g stroke="#8a4514" stroke-width="4" fill="none">
+    <path d="M18 55 h68"/>
+    <path d="M52 21 v68"/>
+    <path d="M28 31 q24 24 0 48"/>
+    <path d="M76 31 q-24 24 0 48"/>
+  </g>
+  <text x="100" y="48" font-family="Poppins, Arial, sans-serif" font-weight="800" font-size="24" fill="#234c7b">VANCOUVER YOUTH</text>
+  <text x="100" y="78" font-family="Poppins, Arial, sans-serif" font-weight="800" font-size="24" fill="#e07b28">BASKETBALL</text>
+  <text x="100" y="98" font-family="Arial, sans-serif" font-size="10" letter-spacing="2" fill="#9a9a9a">PLACEHOLDER — REPLACE WITH OFFICIAL MARK</text>
+</svg>

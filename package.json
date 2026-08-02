@@ -1,18 +1,18 @@
 {
-  "name": "ourtown-site",
+  "name": "ourtown-campaign-kit",
+  "version": "1.0.0",
+  "description": "Generates co-branded campaign marketing packages for OurTown partnerships.",
   "type": "module",
-  "version": "0.1.0",
-  "private": true,
+  "bin": {
+    "campaign-kit": "./src/cli.js"
+  },
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "build": "node src/cli.js campaigns/volcanoes-vyb.json",
+    "postinstall": "playwright install chromium"
   },
   "dependencies": {
-    "@astrojs/tailwind": "^5.1.4",
-    "astro": "^5.0.5",
-    "tailwindcss": "^3.4.17"
+    "archiver": "^7.0.1",
+    "playwright": "^1.49.1",
+    "qrcode": "^1.5.4"
   }
 }

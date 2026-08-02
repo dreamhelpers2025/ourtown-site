@@ -1,0 +1,88 @@
+{
+  "$comment": "OurTown design tokens. Single source of truth for every generated asset. Values carried over from the ourtown.store site build (tailwind.config.mjs @ 1b98350) so campaign assets and the website cannot drift apart.",
+
+  "color": {
+    "gold": {
+      "50": "#fdf9ec", "100": "#faf0c8", "200": "#f5e293", "300": "#efd061",
+      "400": "#e8b63e", "500": "#d99e23", "600": "#bb7e1a", "700": "#965e18",
+      "800": "#7a4a1b", "900": "#673e1c"
+    },
+    "navy": {
+      "50": "#eef4fb", "100": "#d4e3f3", "200": "#a9c5e6", "300": "#7ba6d5",
+      "400": "#5187c1", "500": "#3b6fa9", "600": "#295f98", "700": "#234c7b",
+      "800": "#1f3e63", "900": "#1a3450"
+    },
+    "heritage": {
+      "500": "#c65a46", "600": "#a64332", "700": "#85342a"
+    },
+    "forest": {
+      "500": "#4f6b58", "600": "#3f5648", "700": "#34463b"
+    },
+    "cream": { "DEFAULT": "#f7f2e8", "50": "#fdfaf3", "200": "#efe5cf", "300": "#e3d4ad" },
+    "ink": { "DEFAULT": "#2f2f2f", "soft": "#5a5651" },
+    "white": "#ffffff"
+  },
+
+  "role": {
+    "$comment": "Semantic roles. Templates reference these, never raw ramp values.",
+    "brand": "{color.gold.500}",
+    "brandDeep": "{color.gold.700}",
+    "accent": "{color.navy.600}",
+    "surface": "{color.cream.DEFAULT}",
+    "surfaceAlt": "{color.cream.50}",
+    "text": "{color.ink.DEFAULT}",
+    "textSoft": "{color.ink.soft}",
+    "onBrand": "{color.ink.DEFAULT}",
+    "onAccent": "{color.white}"
+  },
+
+  "font": {
+    "display": "Poppins, 'Nunito Sans', system-ui, sans-serif",
+    "body": "Inter, system-ui, sans-serif",
+    "webfontUrl": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap",
+    "weight": { "regular": 400, "medium": 500, "semibold": 600, "bold": 700, "black": 800 }
+  },
+
+  "radius": { "sm": "8px", "md": "16px", "lg": "28px", "pill": "999px" },
+
+  "shadow": {
+    "card": "0 4px 20px -8px rgba(47,47,47,0.12)",
+    "soft": "0 2px 12px -4px rgba(47,47,47,0.08)",
+    "lift": "0 18px 48px -18px rgba(47,47,47,0.45)"
+  },
+
+  "spacingScale": [0, 4, 8, 12, 16, 24, 32, 48, 64, 96, 128],
+
+  "rules": {
+    "$comment": "Machine-readable constraints. These are the automation spec: enforced in code, not just documented in a PDF.",
+    "businessName": { "maxLength": 40 },
+    "causeName": { "maxLength": 40 },
+    "headline": { "maxLength": 48, "autoFit": true, "minScale": 0.62 },
+    "product": { "transparentPng": true, "minWidthPx": 1500 },
+    "qr": { "minInches": 1.25, "quietZoneModules": 2, "position": "lower-right" },
+    "ourtownLogo": { "position": "footer", "alwaysPresent": true },
+    "disclosure": { "required": true, "minPtAtLetter": 8 },
+    "contrast": { "minRatioLargeText": 3.0, "minRatioBodyText": 4.5 }
+  },
+
+  "voice": {
+    "$comment": "Campaign-system messaging. The platform speaks in community identity, not fundraising asks.",
+    "platformTagline": "Shop Local. Give Local.",
+    "poweredBy": "Powered by OurTown",
+    "headlines": [
+      "Wear Your Community.",
+      "Your Purchase Changes Where You Live.",
+      "Local Pride. Local Impact.",
+      "Buy Here. Build Here."
+    ]
+  },
+
+  "badges": {
+    "shop-local":       { "label": "Shop Local",        "icon": "🛍️", "tone": "brand" },
+    "gives-back":       { "label": "Gives Back",        "icon": "❤️",       "tone": "heritage" },
+    "community-partner":{ "label": "Community Partner", "icon": "🤝",       "tone": "accent" },
+    "team-partner":     { "label": "Official Team Partner", "icon": "🏀", "tone": "accent",
+                          "$requires": "A signed partnership agreement. This badge asserts an official relationship." },
+    "local-impact":     { "label": "Local Impact",      "icon": "🌲",       "tone": "forest" }
+  }
+}
